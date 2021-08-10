@@ -49,6 +49,7 @@ public class finalj {
         driver.findElement(By.id("input-confirm")).sendKeys(a);
         driver.findElement(By.xpath("//label[@class='radio-inline']/input[@value='1']")).click();
         driver.findElement(By.xpath("//input[@name='agree' and @value='1']")).click();
+        driver.findElement(By.xpath("//input[@type='submit' and @value='Continue']")).click();
 //        WebDriverWait wait = new WebDriverWait(driver,30);
 //        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath()));
         Thread.sleep(2000);
