@@ -78,7 +78,7 @@ public class abc {
         //wait sheidzleba
         String startcarttotal = driver.findElement(By.id("cart-total")).getText();
         driver.findElement(By.id("button-cart")).click();
-        Thread.sleep(1000);
+
         wait.until(new ExpectedCondition <Boolean>() {
             public Boolean apply(WebDriver driver)
             {
@@ -97,8 +97,9 @@ public class abc {
         }
 //        System.out.println(startcarttotal);
 //        System.out.println(carttotal);
-
         driver.findElement(By.id("cart-total")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[@class='text-right']/a[2]")));
+
         driver.findElement(By.xpath("//p[@class='text-right']/a[2]")).click();
         //filling info
 
