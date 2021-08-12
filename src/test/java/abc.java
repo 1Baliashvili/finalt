@@ -12,6 +12,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +23,12 @@ public class abc {
         LocalTime localTime = LocalTime.now();
         String a = dtf.format(localTime);
         return "bachanabal" + a + "@gmail.com";
+    }
+    public String getDateNow()
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate localDate = LocalDate.now();
+        return dtf.format(localDate);
     }
 
     @Test
@@ -83,20 +90,25 @@ public class abc {
         driver.findElement(By.id("input-review")).sendKeys("this product is awesome this product is awesome");
         driver.findElement(By.xpath("//div[@class='col-sm-12']/input[@value='5']")).click();
         js.executeScript("document.getElementById('button-review').click();");
-       
+
         //wait sheidzleba
         String startcarttotal = driver.findElement(By.id("cart-total")).getText();
         driver.findElement(By.id("button-cart")).click();
 
+
+
+        //aqac wait unda
         wait.until(new ExpectedCondition <Boolean>() {
             public Boolean apply(WebDriver driver)
             {
-                return driver.findElement(By.id("cart-total")).getText() != startcarttotal;
+
+                return (driver.findElement(By.xpath("//span[@id='cart-total']")).getText().equals(startcarttotal));
             }
         });
-        //aqac wait unda
         String carttotal = driver.findElement(By.id("cart-total")).getText();
-        if(!startcarttotal.equals(carttotal))
+        System.out.println(startcarttotal);
+        System.out.println(carttotal);
+        if(startcarttotal.equals(carttotal))
         {
             System.out.println("you have just added new item succesfully");
         }
@@ -135,7 +147,29 @@ public class abc {
         driver.findElement(By.xpath("//div[@class='pull-right']/input[@id='button-shipping-address']")).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='button-shipping-method']")));
         driver.findElement(By.xpath("//input[@id='button-shipping-method']")).click();
-        Thread.sleep(2000);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("button-payment-method")));
+        driver.findElement(By.xpath("//input[@type='checkbox' and @value=1]")).click();
+        driver.findElement(By.id("button-payment-method")).click();
+
+        //bolos wina davaleba
+        //shemdegi
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='button-confirm']")));
+        driver.findElement(By.xpath("//input[@id='button-confirm']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("history")));
+        driver.findElement(By.linkText("history")).click();
+        String pendingStatus = driver.findElement(By.xpath("//table[@class='table table-bordered table-hover']/tbody/tr/td[4]")).getText();
+        String dateStatus = driver.findElement(By.xpath("//table[@class='table table-bordered table-hover']/tbody/tr/td[6]")).getText();
+
+        if(getDateNow().equals(dateStatus))
+        {
+            System.out.println("date is current");
+        }
+        else System.out.println("date do not match curent date");
+        if(pendingStatus.equals("Pending"))
+        {
+            System.out.println("status is pending");
+        }
+        else System.out.println("status is not pending try again or wait");
         driver.close();
         driver.quit();
 
