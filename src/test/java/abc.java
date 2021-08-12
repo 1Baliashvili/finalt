@@ -26,12 +26,14 @@ public class abc {
 
     @Test
     public void uploading() throws InterruptedException{
+
         WebDriver driver;
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://tutorialsninja.com/demo/");
         Wait wait = new WebDriverWait(driver,100);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         driver.findElement(By.className("dropdown")).click();
         driver.findElement(By.xpath("//ul[@class='dropdown-menu dropdown-menu-right']/li/a")).click();
 
@@ -75,12 +77,13 @@ public class abc {
         driver.findElement(By.xpath("//button[@title='Close (Esc)']")).click();
         driver.findElement(By.xpath("//a[text()='Write a review']")).click();
         //js executor fill info
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+
         WebElement h = driver.findElement(By.xpath("//h2[text()='Write a review']"));
         js.executeScript("arguments[0].scrollIntoView();",h);
         driver.findElement(By.id("input-review")).sendKeys("this product is awesome this product is awesome");
         driver.findElement(By.xpath("//div[@class='col-sm-12']/input[@value='5']")).click();
-        driver.findElement(By.id("button-review")).click();
+        js.executeScript("document.getElementById('button-review').click();");
+       
         //wait sheidzleba
         String startcarttotal = driver.findElement(By.id("cart-total")).getText();
         driver.findElement(By.id("button-cart")).click();
