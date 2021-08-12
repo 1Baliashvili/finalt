@@ -16,6 +16,13 @@ import java.util.concurrent.TimeUnit;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 public class abc {
+    public String getUniqueMail()
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmmss");
+        LocalTime localTime = LocalTime.now();
+        String a = dtf.format(localTime);
+        return "bachanabal" + a + "@gmail.com";
+    }
 
     @Test
     public void uploading() throws InterruptedException{
@@ -29,15 +36,14 @@ public class abc {
         driver.findElement(By.xpath("//ul[@class='dropdown-menu dropdown-menu-right']/li/a")).click();
 
         //fil info
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmmss");
-        LocalTime localTime = LocalTime.now();
-        String a = dtf.format(localTime);
+
         driver.findElement(By.id("input-firstname")).sendKeys("Bachana");
         driver.findElement(By.id("input-lastname")).sendKeys("Baliashvili");
-        driver.findElement(By.id("input-email")).sendKeys("bachana"+a+"@gmail.com");
-        driver.findElement(By.id("input-telephone")).sendKeys(a);
-        driver.findElement(By.id("input-password")).sendKeys(a);
-        driver.findElement(By.id("input-confirm")).sendKeys(a);
+        String newmail = getUniqueMail();
+        driver.findElement(By.id("input-email")).sendKeys(newmail);
+        driver.findElement(By.id("input-telephone")).sendKeys("1234");
+        driver.findElement(By.id("input-password")).sendKeys("123123");
+        driver.findElement(By.id("input-confirm")).sendKeys("123123");
         driver.findElement(By.xpath("//label[@class='radio-inline']/input[@value='1']")).click();
         driver.findElement(By.xpath("//input[@name='agree' and @value='1']")).click();
         driver.findElement(By.xpath("//input[@type='submit' and @value='Continue']")).click();

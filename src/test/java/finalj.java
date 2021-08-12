@@ -30,24 +30,31 @@ public class finalj {
         }
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
+    public String getUniqueMail()
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmmss");
+        LocalTime localTime = LocalTime.now();
+        String a = dtf.format(localTime);
+        return "bachanabal" + a + "@gmail.com";
+    }
     @Test
     public void uploading() throws InterruptedException{
         driver.manage().window().maximize();
         driver.get("http://tutorialsninja.com/demo/");
         Wait wait = new WebDriverWait(driver,100);
-        driver.findElement(By.xpath("//li[@class='dropdown']")).click();
+        driver.findElement(By.className("dropdown")).click();
         driver.findElement(By.xpath("//ul[@class='dropdown-menu dropdown-menu-right']/li/a")).click();
 
         //fil info
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmmss");
-        LocalTime localTime = LocalTime.now();
-        String a = dtf.format(localTime);
+
         driver.findElement(By.id("input-firstname")).sendKeys("Bachana");
         driver.findElement(By.id("input-lastname")).sendKeys("Baliashvili");
-        driver.findElement(By.id("input-email")).sendKeys("bachana"+a+"@gmail.com");
-        driver.findElement(By.id("input-telephone")).sendKeys(a);
-        driver.findElement(By.id("input-password")).sendKeys(a);
-        driver.findElement(By.id("input-confirm")).sendKeys(a);
+        String newmail = getUniqueMail();
+        driver.findElement(By.id("input-email")).sendKeys(newmail);
+        driver.findElement(By.id("input-telephone")).sendKeys("1234");
+        driver.findElement(By.id("input-password")).sendKeys("asdf");
+        driver.findElement(By.id("input-confirm")).sendKeys("asdf");
+        Thread.sleep(2000);
         driver.findElement(By.xpath("//label[@class='radio-inline']/input[@value='1']")).click();
         driver.findElement(By.xpath("//input[@name='agree' and @value='1']")).click();
         driver.findElement(By.xpath("//input[@type='submit' and @value='Continue']")).click();
@@ -88,7 +95,7 @@ public class finalj {
         //wait sheidzleba
         String startcarttotal = driver.findElement(By.id("cart-total")).getText();
         driver.findElement(By.id("button-cart")).click();
-        Thread.sleep(1000);
+
         wait.until(new ExpectedCondition <Boolean>() {
             public Boolean apply(WebDriver driver)
             {
@@ -107,8 +114,9 @@ public class finalj {
         }
 //        System.out.println(startcarttotal);
 //        System.out.println(carttotal);
-
         driver.findElement(By.id("cart-total")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[@class='text-right']/a[2]")));
+
         driver.findElement(By.xpath("//p[@class='text-right']/a[2]")).click();
         //filling info
 
@@ -138,7 +146,6 @@ public class finalj {
         Thread.sleep(2000);
         driver.close();
         driver.quit();
-
 
 
 
